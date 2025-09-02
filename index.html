@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chemical Storage Location – St. Mary’s College of Tagum</title>
+  <style>
+    :root{
+      --royal:#4169e1;
+      --royal-dark:#2f4eb5;
+      --sky:#e8f0ff;
+      --ink:#0b1a3d;
+      --muted:#6b7a99;
+      --card:#ffffff;
+      --ring: rgba(65,105,225,0.4);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;padding:0;background:var(--sky);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans",sans-serif}
+    .container{max-width:1100px;margin:24px auto;padding:0 16px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand{display:flex;flex-direction:column;align-items:center;gap:10px;flex:1}
+    header img{height:70px;width:auto;object-fit:contain;filter: drop-shadow(0 1px 2px rgba(0,0,0,.15));}
+    h1{margin:0;font-size:clamp(20px,3.5vw,28px);font-weight:800;text-align:center;color:var(--royal);}
+    .sub{font-size:14px;color:var(--muted);text-align:center;margin-top:-6px}
+    /* Menu */
+    .menu{position:relative}
+    .menu-btn{background:none;border:none;font-size:26px;cursor:pointer;color:var(--royal);}
+    .dropdown{display:none;position:absolute;right:0;top:40px;background:white;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.15);overflow:hidden;min-width:180px;z-index:100}
+    .dropdown button{all:unset;display:block;width:100%;padding:10px 14px;cursor:pointer;font-size:14px;color:var(--ink)}
+    .dropdown button:hover{background:var(--sky)}
+    .card{background:var(--card);border-radius:18px;box-shadow:0 8px 20px rgba(8,32,91,.08);padding:16px;margin-bottom:18px}
+    label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+    input[type="text"], input[type="search"], input[type="color"]{
+      width:100%;padding:10px 12px;border-radius:12px;border:1px solid rgba(0,0,0,.12);font-size:14px;outline:none;
+    }
+    input:focus{border-color:var(--royal);box-shadow:0 0 0 4px var(--ring)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    button{border:none;border-radius:12px;padding:10px 14px;font-weight:700;cursor:pointer}
+    button.primary{background:var(--royal);color:#fff}
+    button.primary:hover{background:var(--royal-dark)}
+    button.secondary{background:#e6ecff;color:var(--royal)}
+    button.secondary:hover{background:#d7e3ff}
+    button.danger{background:#ef4444;color:#fff}
+    button.danger:hover{background:#c93030}
+    table{width:100%;border-collapse:separate;border-spacing:0 10px}
+    thead th{font-size:12px;color:var(--muted);font-weight:700;text-align:left;padding:0 12px}
+    tbody tr{background:#fff;border-radius:12px;box-shadow:0 4px 14px rgba(8,32,91,.06)}
+    tbody td{padding:14px 12px;border-top:1px solid rgba(0,0,0,.06);border-bottom:1px solid rgba(0,0,0,.06)}
+    tbody tr td:first-child{border-left:1px solid rgba(0,0,0,.06);border-top-left-radius:12px;border-bottom-left-radius:12px}
+    tbody tr td:last-child{border-right:1px solid rgba(0,0,0,.06);border-top-right-radius:12px;border-bottom-right-radius:12px}
+    .tag{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:6px 10px;border:1px solid rgba(0,0,0,.08);}
+    .dot{width:14px;height:14px;border-radius:50%;border:1px solid rgba(0,0,0,.15)}
+    .muted{color:var(--muted);font-size:12px}
+    .empty{padding:22px;text-align:center;color:var(--muted)}
+    .footer{margin-top:12px;color:var(--muted);font-size:12px;text-align:center}
+    #formCard{display:none}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <img src="logo.png" alt="St. Mary’s College of Tagum logo" />
+        <h1>Chemical Storage Location</h1>
+        <div class="sub">St. Mary’s College of Tagum • Blue theme with Royal Blue accents</div>
+      </div>
+      <div class="menu">
+        <button class="menu-btn">☰</button>
+        <div class="dropdown" id="dropdownMenu">
+          <button id="menuAdd">➕ Add Chemical</button>
+          <button id="menuSeed">📥 Load Examples</button>
+          <button id="menuClear">🗑️ Clear All</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hidden form -->
+    <section id="formCard" class="card">
+      <h3>Add / Edit Chemical</h3>
+      <form id="chemForm">
+        <input type="hidden" id="editingId" value="">
+        <div class="row">
+          <div>
+            <label for="name">Chemical name</label>
+            <input id="name" type="text" required/>
+          </div>
+          <div>
+            <label for="color">Color</label>
+            <input id="color" type="color" value="#4169e1" />
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="cabinet">Cabinet</label>
+            <input id="cabinet" type="text"/>
+          </div>
+          <div>
+            <label for="cubicle">Cubicle</label>
+            <input id="cubicle" type="text"/>
+          </div>
+        </div>
+        <div>
+          <label for="notes">Notes</label>
+          <input id="notes" type="text"/>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:10px">
+          <button class="primary" type="submit" id="saveBtn">Save Chemical</button>
+          <button type="button" class="secondary" id="resetBtn">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Search + Table -->
+    <section class="card">
+      <label for="search">Search chemical</label>
+      <input id="search" type="search" placeholder="Type to filter..."/>
+      <div style="overflow:auto;margin-top:12px">
+        <table>
+          <thead>
+            <tr><th>Name</th><th>Cabinet</th><th>Cubicle</th><th>Color</th><th>Notes</th><th>Actions</th></tr>
+          </thead>
+          <tbody id="tbody">
+            <tr class="empty"><td colspan="6">No chemicals yet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="footer">Data is saved locally in your browser.</div>
+  </div>
+
+<script>
+  const STORAGE_KEY='smct_chemicals_v2';
+  const $=s=>document.querySelector(s);
+  const form=$('#chemForm'),tbody=$('#tbody'),search=$('#search');
+  const formCard=$('#formCard'),saveBtn=$('#saveBtn');
+  const menuBtn=document.querySelector('.menu-btn'),dropdown=$('#dropdownMenu');
+  const menuAdd=$('#menuAdd'),menuSeed=$('#menuSeed'),menuClear=$('#menuClear');
+
+  function uid(){return Math.random().toString(36).slice(2,9)}
+  function readStore(){try{return JSON.parse(localStorage.getItem(STORAGE_KEY))||[]}catch{return[]}}
+  function writeStore(l){localStorage.setItem(STORAGE_KEY,JSON.stringify(l))}
+  function escapeHtml(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+
+  function render(list){
+    tbody.innerHTML='';
+    if(!list.length){tbody.innerHTML='<tr class="empty"><td colspan=6>No chemicals yet.</td></tr>';return}
+    for(const it of list){
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td><b>${escapeHtml(it.name)}</b></td>
+      <td>${escapeHtml(it.cabinet||'')}</td>
+      <td>${escapeHtml(it.cubicle||'')}</td>
+      <td><span class="dot" style="background:${it.color}"></span> ${it.color}</td>
+      <td>${escapeHtml(it.notes||'')}</td>
+      <td>
+        <button class="secondary" data-act="edit" data-id="${it.id}">Edit</button>
+        <button class="danger" data-act="del" data-id="${it.id}">Delete</button>
+      </td>`;
+      tbody.appendChild(tr);
+    }
+  }
+  function listFiltered(){const q=search.value.trim().toLowerCase();const l=readStore();return !q?l:l.filter(x=>x.name.toLowerCase().includes(q))}
+  form.addEventListener('submit',e=>{
+    e.preventDefault();
+    const id=$('#editingId').value||uid();
+    const item={id,name:$('#name').value.trim(),cabinet:$('#cabinet').value.trim(),cubicle:$('#cubicle').value.trim(),color:$('#color').value,notes:$('#notes').value.trim()};
+    if(!item.name)return;
+    let list=readStore();
+    const exists=list.find(x=>x.id===id);
+    if(exists)list=list.map(x=>x.id===id?item:x);else list.push(item);
+    writeStore(list);render(listFiltered());
+    form.reset();$('#color').value='#4169e1';$('#editingId').value='';saveBtn.textContent='Save Chemical';
+    formCard.style.display='none';
+  });
+  tbody.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;
+    const id=b.dataset.id,act=b.dataset.act;let list=readStore();
+    if(act==='edit'){const f=list.find(x=>x.id===id);if(f){$('#name').value=f.name;$('#cabinet').value=f.cabinet;$('#cubicle').value=f.cubicle;$('#color').value=f.color;$('#notes').value=f.notes;$('#editingId').value=f.id;saveBtn.textContent='Update';formCard.style.display='block';}}
+    if(act==='del'){if(confirm('Delete this chemical?')){list=list.filter(x=>x.id!==id);writeStore(list);render(listFiltered())}}
+  });
+  search.addEventListener('input',()=>render(listFiltered()));
+  $('#resetBtn').addEventListener('click',()=>{form.reset();$('#color').value='#4169e1';$('#editingId').value='';saveBtn.textContent='Save Chemical'});
+
+  // Menu
+  menuBtn.addEventListener('click',()=>{dropdown.style.display=dropdown.style.display==='block'?'none':'block'});
+  document.addEventListener('click',e=>{if(!e.target.closest('.menu'))dropdown.style.display='none'});
+  menuAdd.addEventListener('click',()=>{formCard.style.display=formCard.style.display==='block'?'none':'block';dropdown.style.display='none'});
+  menuSeed.addEventListener('click',()=>{
+    const seed=[
+      {id:uid(),name:'Hydrochloric Acid',cabinet:'A1',cubicle:'Acids',color:'#1e3a8a',notes:'Corrosive'},
+      {id:uid(),name:'Sodium Hydroxide',cabinet:'B2',cubicle:'Bases',color:'#3b82f6',notes:'Caustic'},
+      {id:uid(),name:'Ethanol',cabinet:'C3',cubicle:'Flammable',color:'#2563eb',notes:'Flammable'},
+    ];
+    const list=readStore().concat(seed);writeStore(list);render(listFiltered());dropdown.style.display='none';
+  });
+  menuClear.addEventListener('click',()=>{if(confirm('Delete all?')){writeStore([]);render([])}dropdown.style.display='none'});
+  render(listFiltered());
+</script>
+</body>
+</html>
